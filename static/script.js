@@ -157,11 +157,13 @@ document.getElementById('download-form').addEventListener('submit', async (event
     const loadingIndicator = document.getElementById('loading-indicator');
     const playerContainer = document.getElementById('player-container');
     const downloadLink = document.getElementById('download-link');
+    const previewContainer = document.getElementById('preview-container');
 
     downloadButton.disabled = true;
     loadingIndicator.style.display = 'block';
     playerContainer.style.display = 'none';
     downloadLink.style.display = 'none';
+    previewContainer.style.display = 'none';
 
     const url = document.getElementById('url').value;
     const startTime = document.getElementById('start-slider').value;
@@ -196,9 +198,6 @@ document.getElementById('download-form').addEventListener('submit', async (event
             if (previewContainer) {
                 previewContainer.style.display = 'none';
             }
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 3000);
         } else {
             alert(data.error || 'An error occurred during download');
             loadingIndicator.style.display = 'none';
