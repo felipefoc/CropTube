@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CropTube</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='ico.ico') }}">
+</head>
+<body>
+    <div class="container">
+        <a href="/">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="CropTube Logo" class="logo">
+        </a>
+        <form id="download-form" class="input-group">
+            <input type="text" id="url" name="url" placeholder="Paste YouTube link here..." class="form-control">
+            <div class="settings-container" style="display:none;">
+                <select id="format" name="format" class="form-control">
+                    <option value="mp4">MP4</option>
+                    <option value="avi">AVI</option>
+                    <option value="mp3">MP3</option>
+                </select>
+                <select id="quality" name="quality" class="form-control" style="display:none;">
+                    <option value="">Loading...</option>
+                </select>
+                <button id="submit" type="submit" class="btn" style="display:none;">Recortar</button>
+            </div>
+        </form>
+        <div id="preview-container" style="display:none;">
+            <div id="video-preview">
+                <iframe id="youtube-preview" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div id="sliders-container" style="display:none;">
+                <div class="slider-group">
+                    <label for="start-slider">Start: <span id="start-time">0s</span></label>
+                    <input type="range" id="start-slider" min="0" value="0" class="slider">
+                </div>
+                <div class="slider-group">
+                    <label for="end-slider">End: <span id="end-time">0s</span></label>
+                    <input type="range" id="end-slider" min="0" value="0" class="slider">
+                </div>
+            </div>
+        </div>
+        <div id="loading-indicator" style="display:none;">
+            <p>Processando o vídeo... aguarde.</p>
+        </div>
+        <div id="player-container" style="display:none;">
+            <video id="video-player" width="100%" controls></video>
+            <a id="download-link" href="" download class="btn" style="display:none;">Download</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

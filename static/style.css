@@ -1,0 +1,125 @@
+/* General styles */
+body {
+    background: linear-gradient(135deg, #160231, #422d58);
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    width: 90%;
+}
+
+.logo {
+    width: 200px;
+    margin: 0 auto 2rem;
+    display: block;
+}
+
+/* Form styles */
+.input-group {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.input-group .form-control {
+    flex: 1 1 auto;
+}
+
+.form-control {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(30, 30, 30, 0.6);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.settings-container {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex: 0 0 auto;
+}
+
+.settings-container select.form-control {
+    width: 120px;
+    flex: none;
+    padding: 12px;
+}
+
+.settings-container .btn {
+    padding: 12px 12px;
+    border-radius: 25px;
+    font-size: 1rem;
+    flex: none;
+}
+
+.form-control::placeholder {
+    color: #ccc;
+}
+
+.btn {
+    padding: 1.2rem 2rem;
+    border: none;
+    border-radius: 25px;
+    /* Modern purple gradient */
+    background: linear-gradient(45deg, #8e2de2, #4a00e0);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: linear-gradient(45deg, #9d4edd, #5b24ff);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .input-group {
+        flex-direction: column;
+        border-radius: 25px; /* Adjust for stacked view */
+        border: none;
+    }
+
+    .form-control {
+        border-radius: 25px;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Video preview styles */
+#video-preview {
+    margin-top: 1.5rem;
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+#video-preview iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
