@@ -5,3 +5,14 @@ services:
       - "5000:5000"
     volumes:
       - ./static/videos:/app/static/videos
+    env_file:
+      - .env
+  ngrok:
+    image: ngrok/ngrok:latest
+    ports:
+      - "4040:4040"
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTH_TOKEN}
+    command: http --domain=${NGROK_DOMAIN} web:5000
+    depends_on:
+      - web
