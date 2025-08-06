@@ -5,9 +5,17 @@ import subprocess
 
 app = Flask(__name__)
 
-# Ensure the static/videos directory exists
-if not os.path.exists('static/videos'):
-    os.makedirs('static/videos')
+folder_path = 'static/videos'
+
+
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
+else:
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
 
 @app.route('/')
 def index():
@@ -36,12 +44,12 @@ def download():
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }]
-        else:
-            if quality == 'best':
+        
+        elif quality == 'best':
                 ydl_opts['format'] = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best'
-            else:
-                format_height = quality.replace('p', '')  # Convert "720p" to "720"
-                ydl_opts['format'] = f'bestvideo[height<={format_height}][ext=mp4]+bestaudio[ext=m4a]/best[height<={format_height}]'
+        else:
+            format_height = quality.replace('p', '')  # Convert "720p" to "720"
+            ydl_opts['format'] = f'bestvideo[height<={format_height}][ext=mp4]+bestaudio[ext=m4a]/best[height<={format_height}]'
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
