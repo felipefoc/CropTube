@@ -7,6 +7,17 @@ services:
       - ./static/videos:/app/static/videos
     env_file:
       - .env
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./static/videos:/app/static/videos
+    depends_on:
+      - web
+
   ngrok:
     image: ngrok/ngrok:latest
     ports:
