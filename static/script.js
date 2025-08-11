@@ -50,22 +50,15 @@ document.getElementById('url').addEventListener('input', async (event) => {
         timeoutId = setTimeout(async () => {
             lastUrl = url;
             try {
-                // Fetch qualities
-                const qualitiesResponse = await fetch('/get-qualities', {
+                // Fetch video info
+                const response = await fetch('/get_video_info', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ url })
                 });
 
-                // Fetch video info for duration
-                const infoResponse = await fetch('/get_video_info', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url })
-                });
-
-                if (qualitiesResponse.ok) {
-                    const data = await qualitiesResponse.json();
+                if (response.ok) {
+                    const data = await response.json();
                     // Update quality options
                     qualitySelect.innerHTML = '';
                     data.qualities.forEach(quality => {
@@ -74,17 +67,14 @@ document.getElementById('url').addEventListener('input', async (event) => {
                         option.textContent = quality.quality;
                         qualitySelect.appendChild(option);
                     });
-                }
 
-                if (infoResponse.ok) {
-                    const info = await infoResponse.json();
-                    if (info.duration) {
-                        setupSliders(info.duration);
+                    if (data.duration) {
+                        setupSliders(data.duration);
                         buttonCrip.style.display = 'block';
                     }
                 }
             } catch (error) {
-                console.error('Error fetching qualities:', error);
+                console.error('Error fetching video info:', error);
                 qualitySelect.innerHTML = '<option value="">Error loading qualities</option>';
             }
         }, 500); // Wait 500ms after last input before fetching
@@ -139,7 +129,7 @@ document.getElementById('format').addEventListener('change', (event) => {
     const qualitySelect = document.getElementById('quality');
     const format = event.target.value;
     
-    if (format === 'mp3') {
+    if (format === 'audio') {
         qualitySelect.style.display = 'none';
     } else {
         // Only show quality if we have a valid URL
