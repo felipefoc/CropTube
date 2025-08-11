@@ -35,6 +35,7 @@ def download():
     try:
         ydl_opts = {
             'outtmpl': f'static/videos/%(title)s.%(ext)s',
+            'cookiefile': 'cookies.txt',
         }
 
         if video_format == 'mp3':
@@ -95,6 +96,7 @@ def get_qualities():
         ydl_opts = {
             'format': 'best',
             'quiet': True,
+            'cookiefile': 'cookies.txt',
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
