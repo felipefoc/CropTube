@@ -74,13 +74,13 @@ document.getElementById('url').addEventListener('input', async (event) => {
                         option.textContent = quality.quality;
                         qualitySelect.appendChild(option);
                     });
-                    buttonCrip.style.display = 'block';
                 }
 
                 if (infoResponse.ok) {
                     const info = await infoResponse.json();
                     if (info.duration) {
                         setupSliders(info.duration);
+                        buttonCrip.style.display = 'block';
                     }
                 }
             } catch (error) {
@@ -153,6 +153,16 @@ document.getElementById('format').addEventListener('change', (event) => {
 document.getElementById('download-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    const url = document.getElementById('url').value;
+    if (!getYouTubeVideoId(url)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Invalid.', 
+            text: 'It\'s not a youtube link',
+        });
+        return;
+    }
+    const downloadForm = document.getElementById('download-form');
     const downloadButton = document.querySelector('#download-form button');
     const loadingIndicator = document.getElementById('loading-indicator');
     const playerContainer = document.getElementById('player-container');
@@ -164,8 +174,8 @@ document.getElementById('download-form').addEventListener('submit', async (event
     playerContainer.style.display = 'none';
     downloadLink.style.display = 'none';
     previewContainer.style.display = 'none';
+    downloadForm.style.display = 'none';
 
-    const url = document.getElementById('url').value;
     const startTime = document.getElementById('start-slider').value;
     const endTime = document.getElementById('end-slider').value;
     const quality = document.getElementById('quality').value;
