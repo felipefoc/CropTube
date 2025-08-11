@@ -139,7 +139,12 @@ def get_video_info():
         return jsonify({'error': 'URL is required'}), 400
 
     try:
-        with yt_dlp.YoutubeDL() as ydl:
+        ydl_opts = {
+            'format': 'best',
+            'quiet': True,
+            'cookiefile': 'cookies.txt',
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=False)
             return jsonify({'duration': info.get('duration')})
     except Exception as e:
