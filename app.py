@@ -2,8 +2,12 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 from pytubefix import YouTube
 import os
 import subprocess
+import logging
 
 app = Flask(__name__)
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 folder_path = 'static/videos'
 
@@ -107,6 +111,7 @@ def get_video_info():
         })
 
     except Exception as e:
+        app.logger.error(f"Error getting video info for url: {url} - {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
