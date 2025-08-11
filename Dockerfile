@@ -2,8 +2,12 @@ FROM python:3.12-slim
 
 RUN apt-get update && apt-get install -y \
     ffmpeg \
+    nodejs \
+    npm \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g youtube-po-token-generator
 
 WORKDIR /app
 
