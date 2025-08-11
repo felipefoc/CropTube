@@ -37,7 +37,7 @@ def download():
         return jsonify({'error': 'URL is required'}), 400
 
     try:
-        yt = YouTube(url)
+        yt = YouTube(url, use_po_token=True)
         audio = yt.streams.filter(only_audio=True).first()
         stream = yt.streams.filter(adaptive=True, resolution=quality).first()
 
@@ -95,7 +95,7 @@ def get_video_info():
         return jsonify({'error': 'URL is required'}), 400
 
     try:
-        yt = YouTube(url)
+        yt = YouTube(url, use_po_token=True)
         streams = yt.streams.filter(adaptive=True, file_extension='mp4').order_by('resolution').desc()
 
         qualities = set()
