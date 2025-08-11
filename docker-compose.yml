@@ -6,6 +6,7 @@ services:
     volumes:
       - ./static/videos:/app/static/videos
       - ./cookies.txt:/app/cookies.txt
+      - ./scripts:/app/scripts
     env_file:
       - .env
 
