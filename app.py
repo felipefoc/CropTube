@@ -24,8 +24,8 @@ else:
 
 
 def po_token_verifier() -> Tuple[str, str]:
-    # This function calls the Node.js script to get a new token
-    result = subprocess.run("node scripts/youtube-token-generator.js", check=True, shell=True, capture_output=True, text=True)
+    # This function calls the command-line tool to get a new token
+    result = subprocess.run("youtube-po-token-generator", check=True, shell=True, capture_output=True, text=True)
     token_object = json.loads(result.stdout)
     return token_object["visitorData"], token_object["poToken"]
 
