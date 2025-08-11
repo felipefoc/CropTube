@@ -3,6 +3,8 @@ from pytubefix import YouTube
 import os
 import subprocess
 import logging
+import json
+from typing import Tuple
 
 app = Flask(__name__)
 
@@ -21,6 +23,13 @@ else:
             os.remove(file_path)
 
 
+def po_token_verifier() -> Tuple[str, str]:
+    # This function calls the Node.js script to get a new token
+    result = subprocess.run("node scripts/youtube-token-generator.js", check=True, shell=True, capture_output=True, text=True)
+    token_object = json.loads(result.stdout)
+    return token_object["visitorData"], token_object["poToken"]
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -37,7 +46,9 @@ def download():
         return jsonify({'error': 'URL is required'}), 400
 
     try:
-        yt = YouTube(url, client='WEB')
+        yt = YouTube(url,
+                     use_po_token=True,
+                     po_token_verifier=po_token_verifier)
         audio = yt.streams.filter(only_audio=True).first()
         stream = yt.streams.filter(adaptive=True, resolution=quality).first()
 
@@ -95,7 +106,9 @@ def get_video_info():
         return jsonify({'error': 'URL is required'}), 400
 
     try:
-        yt = YouTube(url, client='WEB')
+        yt = YouTube(url,
+                     use_po_token=True,
+                     po_token_verifier=po_token_verifier)
         streams = yt.streams.filter(adaptive=True, file_extension='mp4').order_by('resolution').desc()
 
         qualities = set()
