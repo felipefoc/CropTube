@@ -10,3 +10,5 @@ static/videos
 # Virtual environments
 .venv
 .env
+
+cookies.txt

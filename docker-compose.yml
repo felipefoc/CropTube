@@ -5,7 +5,7 @@ services:
       - "5000:5000"
     volumes:
       - ./static/videos:/app/static/videos
-      - ./cookies.txt:/app/cookies.txt
+      - ./:/app/
     env_file:
       - .env
 

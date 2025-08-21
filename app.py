@@ -2,20 +2,29 @@ from flask import Flask, render_template, request, jsonify, send_from_directory
 import yt_dlp
 import os
 import subprocess
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = Flask(__name__)
 
 folder_path = 'static/videos'
 
 
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
-else:
-    for filename in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)
+def cleanup_folder():
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+    else:
+        for filename in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, filename)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
 
+
+### Scheduler
+scheduler = BackgroundScheduler()
+scheduler.add_job(cleanup_folder, 'interval', hours=1)
+scheduler.start()
+
+cleanup_folder()
 
 @app.route('/')
 def index():
