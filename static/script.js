@@ -38,6 +38,14 @@ document.getElementById('url').addEventListener('input', async (event) => {
     toggleElements(url, isValidUrl);
 
     if (url && isValidUrl && url !== lastUrl) {
+        Swal.fire({
+            title: 'Loading data from the link...',
+            text: 'Please wait.. modafoca',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
         const qualitySelect = document.getElementById('quality');
         const previewFrame = document.getElementById('youtube-preview');
         buttonCrip = document.getElementById('submit');
@@ -81,6 +89,7 @@ document.getElementById('url').addEventListener('input', async (event) => {
                     if (info.duration) {
                         setupSliders(info.duration);
                         buttonCrip.style.display = 'block';
+                        Swal.close();
                     }
                 }
             } catch (error) {
@@ -164,13 +173,19 @@ document.getElementById('download-form').addEventListener('submit', async (event
     }
     const downloadForm = document.getElementById('download-form');
     const downloadButton = document.querySelector('#download-form button');
-    const loadingIndicator = document.getElementById('loading-indicator');
     const playerContainer = document.getElementById('player-container');
     const downloadLink = document.getElementById('download-link');
     const previewContainer = document.getElementById('preview-container');
 
+    Swal.fire({
+        title: 'Saving the world',
+        text: 'We are working on it, please wait',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    })
     downloadButton.disabled = true;
-    loadingIndicator.style.display = 'block';
     playerContainer.style.display = 'none';
     downloadLink.style.display = 'none';
     previewContainer.style.display = 'none';
@@ -193,11 +208,12 @@ document.getElementById('download-form').addEventListener('submit', async (event
         const data = await response.json();
         
         if (response.ok && data.filename) {
-            const videoPath = '/static/videos/' + data.filename;
+            const encodedFilename = encodeURIComponent(data.filename);
+            const videoPath = '/static/videos/' + encodedFilename;
             const videoPlayer = document.getElementById('video-player');
             
             // Hide loading indicator and show download link
-            loadingIndicator.style.display = 'none';
+            Swal.close();
             playerContainer.style.display = 'block';
             downloadLink.href = videoPath;
             downloadLink.style.display = 'block';
